@@ -1,18 +1,17 @@
 // ==MiruExtension==
-// @name         Wcostream
-// @version      v0.0.1
-// @author       Anas
-// @lang         en
-// @type         video
-// @icon         https://www.wcostream.tv/inc/embed/assets/images/wco-logo.png
-// @package      com.anas.wcostream
-// @webSite      https://www.wcostream.tv
+// @name Wcostream
+// @version 0.0.1
+// @author Anas
+// @lang en
+// @type video
+// @icon https://www.wcostream.tv/inc/embed/assets/images/wco-logo.png
+// @package com.anas.wcostream
+// @webSite https://www.wcostream.tv
 // ==/MiruExtension==
 
 import { Extension } from "miru-script";
 
 export default class extends Extension {
-  // 1. عرض أحدث الحلقات والكرتون المضاف
   async latest(page) {
     const res = await this.request(`/last-50-recent-release?page=${page}`);
     const cheerio = await this.loadCheerio(res);
@@ -25,8 +24,8 @@ export default class extends Extension {
       
       if (title && url) {
         cards.push({
-          title: title,
-          url: url,
+          title,
+          url,
           cover: "https://www.wcostream.tv/inc/embed/assets/images/wco-logo.png"
         });
       }
@@ -35,7 +34,6 @@ export default class extends Extension {
     return cards;
   }
 
-  // 2. البحث عن كرتون
   async search(kw, page) {
     const res = await this.request(`/search`, {
       method: "POST",
@@ -55,8 +53,8 @@ export default class extends Extension {
 
       if (title && url) {
         results.push({
-          title: title,
-          url: url,
+          title,
+          url,
           cover: "https://www.wcostream.tv/inc/embed/assets/images/wco-logo.png"
         });
       }
@@ -65,7 +63,6 @@ export default class extends Extension {
     return results;
   }
 
-  // 3. جلب تفاصيل الكرتون وقائمة الحلقات
   async detail(url) {
     const res = await this.request(url);
     const cheerio = await this.loadCheerio(res);
@@ -105,13 +102,12 @@ export default class extends Extension {
     };
   }
 
-  // 4. استخراج رابط تشغيل الفيديو المباشر
   async watch(url) {
     const res = await this.request(url);
     const iframeSrc = res.match(/<iframe[^>]+src=["']([^"']+)["']/i)?.[1];
 
     if (!iframeSrc) {
-      throw new Error("لم يتم العثور على مشغل الفيديو");
+      throw new Error("Video player not found");
     }
 
     const iframeRes = await this.request(iframeSrc);
@@ -119,7 +115,7 @@ export default class extends Extension {
                      iframeRes.match(/source\s*src=["']([^"']+)["']/i)?.[1];
 
     if (!videoUrl) {
-      throw new Error("تعذر استخراج رابط الفيديو المباشر");
+      throw new Error("Unable to extract direct video link");
     }
 
     return {
