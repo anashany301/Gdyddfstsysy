@@ -1,3 +1,14 @@
+// ==MiruExtension==
+// @name         Wcostream
+// @version      v0.0.1
+// @author       Anas
+// @lang         en
+// @type         video
+// @icon         https://www.wcostream.tv/inc/embed/assets/images/wco-logo.png
+// @package      com.anas.wcostream
+// @webSite      https://www.wcostream.tv
+// ==/MiruExtension==
+
 import { Extension } from "miru-script";
 
 export default class extends Extension {
