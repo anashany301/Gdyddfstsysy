@@ -1,18 +1,22 @@
 // ==MiruExtension==
-// @name         Wcostream
-// @version      v0.0.1
-// @author       Anas
-// @lang         en
-// @type         video
-// @icon         https://www.wcostream.tv/inc/embed/assets/images/wco-logo.png
-// @package      com.anas.wcostream
-// @webSite      https://www.wcostream.tv
-// @ns           wcostream
+// @name Wcostream
+// @version 1.0.0
+// @author Anas
+// @lang en
+// @type video
+// @icon https://www.wcostream.tv/inc/embed/assets/images/wco-logo.png
+// @package com.anas.wcostream
+// @webSite https://www.wcostream.tv
+// @ns wcostream
 // ==/MiruExtension==
 
 import { Extension } from "miru-script";
 
 export default class extends Extension {
+  constructor() {
+    super("https://www.wcostream.tv");
+  }
+
   async latest(page) {
     const res = await this.request(`/last-50-recent-release?page=${page}`);
     const cheerio = await this.loadCheerio(res);
@@ -25,8 +29,8 @@ export default class extends Extension {
       
       if (title && url) {
         cards.push({
-          title,
-          url,
+          title: title,
+          url: url,
           cover: "https://www.wcostream.tv/inc/embed/assets/images/wco-logo.png"
         });
       }
@@ -54,8 +58,8 @@ export default class extends Extension {
 
       if (title && url) {
         results.push({
-          title,
-          url,
+          title: title,
+          url: url,
           cover: "https://www.wcostream.tv/inc/embed/assets/images/wco-logo.png"
         });
       }
@@ -91,9 +95,9 @@ export default class extends Extension {
     });
 
     return {
-      title,
-      cover,
-      desc,
+      title: title,
+      cover: cover,
+      desc: desc,
       episodes: [
         {
           title: "Episodes",
